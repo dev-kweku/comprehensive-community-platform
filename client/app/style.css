@@ -1,0 +1,204 @@
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+    @apply bg-zinc-50 dark:bg-neutral-900 dark:text-white;
+    font-family: 'Inter', system-ui, sans-serif;
+    color-scheme: light dark;
+    font-size: 14px;
+    }
+
+    * {
+    scroll-margin-top: 3.5rem;
+    }
+
+    label {
+    @apply block;
+    }
+
+    dialog {
+    @apply dark:text-white;
+    }
+
+    .text-secondary {
+    @apply text-zinc-500 dark:text-neutral-400;
+    }
+
+    .hover-bg-light {
+    @apply hover:bg-zinc-100 hover:dark:bg-neutral-800;
+    }
+
+    .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+    }
+
+    select {
+    @apply border-0;
+    background-position: right 0.1rem center;
+    }
+
+    input {
+    @apply !border-0;
+    }
+
+    .container {
+    @apply px-4;
+    }
+
+    .post-content *+p {
+    @apply mt-2;
+    }
+
+    .post-content .reduce-heading {
+    @apply flex gap-2;
+    }
+
+    .post-content .tag {
+    @apply bg-zinc-200 dark:bg-neutral-800 text-zinc-500 dark:text-neutral-400 p-0.5 rounded-md text-sm font-mono self-start;
+    }
+
+    .post-content .reduce-heading :nth-child(2) {
+    @apply flex-1 w-0 hyphens-auto;
+    }
+
+    .article :is(p, pre, h1, h2, h3, h4, h5, h6, blockquote):not(:last-child) {
+    @apply mb-3;
+    }
+
+    .article :is(h1, h2, h3, h4, h5, h6) {
+    @apply font-bold hyphens-auto;
+    }
+
+    .article h1 {
+    @apply text-2xl;
+    }
+
+    .article h2 {
+    @apply text-xl;
+    }
+
+    .article h3 {
+    @apply text-lg;
+    }
+
+    .article h4 {
+    @apply text-base;
+    }
+
+    .article blockquote {
+    @apply bg-zinc-200 opacity-80 dark:bg-neutral-800 py-1 px-2 rounded-md rounded-s-0 border-s-2 border-zinc-300 dark:border-neutral-700;
+    }
+
+    .article hr {
+    @apply my-4 border-zinc-200 dark:border-neutral-700;
+    }
+
+    .article :not(pre)>code {
+    @apply bg-zinc-200 dark:bg-neutral-800 rounded-md px-1;
+    }
+
+    .article a {
+    @apply text-blue-600 dark:text-blue-500 underline hyphens-auto;
+    }
+
+    .article:first-child {
+    @apply mt-2
+    }
+
+    .article pre {
+    @apply overflow-x-auto;
+    }
+
+    .article table {
+    @apply w-full block border-zinc-300 dark:border-neutral-600 overflow-y-auto;
+    }
+
+    .article table :is(th, td) {
+    @apply text-start px-2 py-1 border border-zinc-300 dark:border-neutral-600;
+    }
+
+    .article th {
+    @apply font-medium;
+    }
+
+    .article ol {
+    @apply ms-8;
+    }
+
+    .article ol li {
+    @apply list-decimal;
+    }
+
+    .shiki {
+    counter-reset: step;
+    counter-increment: step 0;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    }
+
+    .shiki .line {
+    line-height: 1;
+    }
+
+    .shiki .line::before {
+    content: counter(step);
+    counter-increment: step;
+    width: 1rem;
+    margin-right: 1.5rem;
+    display: inline-block;
+    text-align: right;
+    color: rgba(115, 138, 148, .4)
+    }
+
+    .content-more {
+    @apply font-mono bg-zinc-400 px-1 dark:bg-neutral-500 inline-block i-lucide-more-horizontal;
+    }
+
+
+    @media (prefers-color-scheme: dark) {
+
+    .shiki,
+    .shiki span {
+        color: var(--shiki-dark) !important;
+        background-color: var(--shiki-dark-bg) !important;
+        /* Optional, if you also want font styles */
+        font-style: var(--shiki-dark-font-style) !important;
+        font-weight: var(--shiki-dark-font-weight) !important;
+        text-decoration: var(--shiki-dark-text-decoration) !important;
+    }
+    }
+
+    .fade-in {
+    animation: fadeIn 240ms;
+    }
+
+    @keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+    }
+
+    .ptr--ptr {
+    @apply bg-zinc-100 dark:bg-neutral-800 border-b dark:border-neutral-700;
+    box-shadow: none !important;
+    }
+
+    .ptr--box {
+    @apply !pb-1 !pt-2;
+    }
+
+    .ptr--icon {
+    @apply !dark:text-neutral-400;
+    }
+
+    .ptr--text {
+    @apply !dark:text-neutral-500 font-medium;
+    }
+
+    .bio a {
+    @apply text-blue-500 underline font-medium;
+    }

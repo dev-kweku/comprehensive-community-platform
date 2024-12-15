@@ -2,4 +2,8 @@ node_modules
 
 /.cache
 /build
-.env
+/public/build
+/public/entry.worker.js
+
+dev.db
+dev.db-journal
