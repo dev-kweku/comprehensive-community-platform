@@ -80,6 +80,12 @@ importers:
       lodash.get:
         specifier: ^4.4.2
         version: 4.4.2
+      mdast:
+        specifier: ^3.0.0
+        version: 3.0.0
+      mdast-util-find-and-replace:
+        specifier: ^3.0.1
+        version: 3.0.1
       mediasoup-client:
         specifier: ^3.7.10
         version: 3.7.18
@@ -158,6 +164,9 @@ importers:
       unified:
         specifier: ^11.0.4
         version: 11.0.5
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
     devDependencies:
       '@iconify-json/lucide':
         specifier: ^1.1.186
@@ -3869,6 +3878,10 @@ packages:
 
   mdast-util-to-string@4.0.0:
     resolution: {integrity: sha512-0H44vDimn51F0YwvxSJSm0eCDOJTRlmN0R1yBh4HLj9wiV1Dn0QoXGbvFAWj2hSItVTlCmBF1hqKlIyUBVFLPg==}
+
+  mdast@3.0.0:
+    resolution: {integrity: sha512-xySmf8g4fPKMeC07jXGz971EkLbWAJ83s4US2Tj9lEdnZ142UP5grN73H1Xd3HzrdbU5o9GYYP/y8F9ZSwLE9g==}
+    deprecated: '`mdast` was renamed to `remark`'
 
   mdn-data@2.0.30:
     resolution: {integrity: sha512-GaqWWShW4kv/G9IEucWScBx9G1/vsFZZJUO+tD26M8J8z3Kw5RDQjaoZe03YAClgeS/SWPOcb4nkFBTEi5DUEA==}
@@ -10364,6 +10377,8 @@ snapshots:
   mdast-util-to-string@4.0.0:
     dependencies:
       '@types/mdast': 4.0.4
+
+  mdast@3.0.0: {}
 
   mdn-data@2.0.30: {}
 
