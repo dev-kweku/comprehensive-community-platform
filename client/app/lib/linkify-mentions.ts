@@ -1,4 +1,4 @@
-import {Node} from "mdast"
+import type { Node } from "mdast";
 import { findAndReplace } from "mdast-util-find-and-replace";
 import type { Plugin } from "unified";
 
@@ -19,7 +19,7 @@ function replaceMention(value: string, username: string) {
 
 	const children: Node[] = [{ type: "text", value: value.trim() }];
 
-	if (username === "kweku-dev") {
+	if (username === "degraft") {
 		children.push({
 			type: "element",
 			tagName: "span",

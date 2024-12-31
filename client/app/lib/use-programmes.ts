@@ -17,7 +17,7 @@ function useProgrammes(){
     const refresh=React.useCallback(()=>{
         setStatus("loading")
         fetcher.load("/programmes");
-    },[fetcher.load]);
+    },[fetcher]);
 
     React.useEffect(()=>{
         if(cache.length){
