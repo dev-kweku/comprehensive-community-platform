@@ -4,6 +4,7 @@ import { queue } from "async";
 const waitQueue = new Queue<string>();
 const ENDPOINT = [import.meta.env.VITE_BOAT_URL, "rooms"].join("/");
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const queueHandle = queue(async (_, cb) => {
 	const front = waitQueue.pop();
 	if (front) return front;

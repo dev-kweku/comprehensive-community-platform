@@ -1,5 +1,4 @@
 import {
-	json,
 	type ActionFunctionArgs,
 	type LoaderFunctionArgs,
 } from "@remix-run/node";
@@ -11,7 +10,7 @@ import { slugify } from "../lib/slugify";
 export const loader = async ({ request }: LoaderFunctionArgs) => {
 	const courses = await prisma.course.findMany({ orderBy: { code: "asc" } });
 
-	return json(courses);
+	return Response.json(courses);
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {

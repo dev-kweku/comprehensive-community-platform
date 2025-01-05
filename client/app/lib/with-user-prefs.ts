@@ -1,4 +1,4 @@
-import { userPrefs } from "./cookies-server";
+import { userPrefs } from "./cookies.server";
 
 async function withUserPrefs(
     request:Request,

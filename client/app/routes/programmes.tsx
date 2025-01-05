@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import {json,type ActionFunctionArgs} from "@remix-run/node"
+import {type ActionFunctionArgs} from "@remix-run/node"
 import {checkAuth} from "../lib/check-auth"
 import { prisma } from "../lib/prisma.server"
 import { slugify } from "../lib/slugify"

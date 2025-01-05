@@ -10,7 +10,7 @@ function useAsyncFetcher() {
 
 	const submit = React.useCallback(
 		(target: SubmitTarget, options: SubmitOptions) => {
-			let p = new Promise((resolve, reject) => {
+			const p = new Promise((resolve, reject) => {
 				promise.current = [resolve, reject];
 				fetcher.submit(target, options);
 			});
