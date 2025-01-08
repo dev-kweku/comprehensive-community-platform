@@ -6,6 +6,7 @@ import {
 	useLocation,
 	useRouteError,
 } from "@remix-run/react";
+// eslint-disable-next-line import/no-named-as-default
 import posthog from "posthog-js";
 import React from "react";
 import { Anchor } from "./anchor";

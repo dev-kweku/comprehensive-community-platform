@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import "@unocss/reset/tailwind.css";
 
 import "virtual:uno.css";
@@ -12,7 +13,6 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
-	json,
 	useLoaderData,
 	useLocation,
 	useRevalidator,
@@ -50,7 +50,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 		//
 	}
 
-	return json({ user, unreadNotifications });
+	return Response.json({ user, unreadNotifications });
 };
 
 export const links: LinksFunction = () => [

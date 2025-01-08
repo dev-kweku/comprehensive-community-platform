@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node";
+import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import React from "react";
 import { CommunityInfo } from "../components/community-info";
@@ -25,7 +25,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 		try {
 			await checkMod(request);
 		} catch {
-			throw json({}, { status: 404 });
+			throw Response.json({}, { status: 404 });
 		}
 	}
 
@@ -56,7 +56,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 		post.content = await renderSummary(post.content);
 	}
 
-	return json({ community, members, membership, posts, school: values.meta() });
+	return Response.json({ community, members, membership, posts, school: values.meta() });
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -64,7 +64,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 	return [
 		{
-			title: `${data.community.name} (+${data.community.handle}) | ${data.school.shortName} ✽ compa`,
+			title: `${data.community.name} (+${data.community.handle}) | ${data.school.shortName} ✽ ttucampus`,
 		},
 		{ name: "description", content: data.community.description },
 	];

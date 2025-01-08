@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import rehypeShiki from "@shikijs/rehype";
 import rehypeKatex from "rehype-katex";
 import rehypeSanitize from "rehype-sanitize";
@@ -9,16 +10,16 @@ import remarkRehype from "remark-rehype";
 import smartypants from "remark-smartypants";
 import { unified, type Plugin } from "unified";
 import { visit } from "unist-util-visit";
+import type { Root, Element, Node } from "hast";
 import { removeCodeTrail } from "./remove-code-trail";
 
-// TODO: Implement image re-embed (we shouldn't show full images from markdown)
 
 const processor = unified()
 	.use(remarkParse)
 	.use(remarkGfm)
 	.use(remarkRehype)
 	.use(rehypeSanitize)
-	.use(reduce)
+	.use(reduceContent)
 	.use(removeLinks)
 	.use(remarkMath)
 	.use(rehypeKatex)
@@ -29,32 +30,31 @@ const processor = unified()
 	.use(smartypants)
 	.use(rehypeStringify);
 
-async function renderSummary(content: string) {
+async function renderSummary(content: string): Promise<string> {
 	return (await processor.process(content)).toString();
 }
 
 function removeLinks(): ReturnType<Plugin> {
-	return (tree) => {
-		visit(tree, "element", (child, index, parent) => {
-			if (child.tagName === "a") {
-				child.tagName = "span";
-				child.properties.href = undefined;
-				child.properties.className = "underline hyphens-auto";
+	return (tree: Root) => {
+		visit(tree, "element", (node: Element) => {
+			if (node.tagName === "a") {
+				node.tagName = "span";
+				node.properties = {
+					...node.properties,
+					href: undefined,
+					className: "underline hyphens-auto",
+				};
 			}
 		});
 	};
 }
 
-function reduce(): ReturnType<Plugin> {
-	return (tree) => {
-		// Some improvements include:
-		// Shortening code blocks
-		// Using paragraph length
-		// Render h tags as div
-		const count = tree.children.length;
-		tree.children.splice(5);
-
-		if (count > 5) {
+function reduceContent(): ReturnType<Plugin> {
+	return (tree: Root) => {
+		const MAX_CHILDREN = 5;
+		const children = tree.children ?? [];
+		if (children.length > MAX_CHILDREN) {
+			tree.children = children.slice(0, MAX_CHILDREN);
 			tree.children.push({
 				type: "element",
 				tagName: "div",
@@ -63,31 +63,26 @@ function reduce(): ReturnType<Plugin> {
 			});
 		}
 
-		visit(tree, "element", (child) => {
-			const tagName = child.tagName;
-			if (
-				child.type === "element" &&
-				["h1", "h2", "h3", "h4", "h5", "h6"].includes(tagName)
-			) {
-				child.tagName = "div";
-
-				child.properties = {
-					...child.properties,
+		visit(tree, "element", (node: Element) => {
+			if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(node.tagName)) {
+				const originalTag = node.tagName;
+				node.tagName = "div";
+				node.properties = {
+					...node.properties,
 					className: "reduce-heading",
 				};
-
-				child.children = [
+				node.children = [
 					{
 						type: "element",
 						tagName: "div",
 						properties: { className: "tag" },
-						children: [{ type: "text", value: tagName }],
+						children: [{ type: "text", value: originalTag }],
 					},
 					{
 						type: "element",
 						tagName: "div",
 						properties: {},
-						children: child.children,
+						children: node.children ?? [],
 					},
 				];
 			}

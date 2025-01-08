@@ -1,0 +1,204 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import {
+	
+	LoaderFunctionArgs,
+	redirect,
+	type ActionFunctionArgs,
+	type MetaFunction,
+} from "@remix-run/node";
+import {
+	Link,
+	useActionData,
+	useNavigation,
+	useSubmit,
+} from "@remix-run/react";
+import { useForm, type FieldValues } from "react-hook-form";
+import { Button } from "../components/button";
+import { Input } from "../components/input";
+import { checkAuth } from "../lib/check-auth";
+import { authCookie } from "../lib/cookies.server";
+import { signUser } from "../lib/jwt.server";
+import { compare } from "../lib/password.server";
+import { prisma } from "../lib/prisma.server";
+import { values } from "../lib/values.server";
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+	try {
+		await checkAuth(request);
+		return redirect("/discussions");
+	} catch (error) {
+		//
+	}
+
+	const school = values.get("shortName");
+
+	return { school };
+};
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+	if (request.method !== "POST") {
+		return Response.json(null, {
+			status: 405,
+			statusText: "Method Not Allowed",
+		});
+	}
+
+	const { email, password } = await request.json();
+
+	const user = await prisma.user.findFirst({
+		where: { OR: [{ email }, { username: email }] },
+	});
+
+	if (!user) {
+		return Response.json(
+			{ type: "invalid-credentials", message: "Invalid email or password" },
+			{ status: 400 },
+		);
+	}
+
+	const authCredential = await prisma.authCredential.findFirst({
+		where: { userId: user.id },
+	});
+
+	if (!authCredential) {
+		return Response.json(
+			{ type: "invalid-credentials", message: "Invalid email or password" },
+			{ status: 400 },
+		);
+	}
+
+	const passwordMatch = await compare(password, authCredential.password);
+	if (!passwordMatch) {
+		return Response.json(
+			{
+				type: "invalid-credentials",
+				message: "Invalid email/username or password",
+			},
+			{ status: 400 },
+		);
+	}
+
+	if (!user.verified) {
+		return Response.json(
+			{ type: "unverified-account", message: "Unverified account" },
+			{ status: 400 },
+		);
+	}
+
+	const token = signUser(user);
+
+	return Response.json(
+		{ type: "success", message: "Login successful" },
+		{
+			headers: {
+				"Set-Cookie": await authCookie.serialize({ token }),
+				Location: "/",
+			},
+			status: 302,
+		},
+	);
+};
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+	return [{ title: `Login | ${data?.school} ✽ ttucampus` }];
+};
+
+export default function Login() {
+	const { handleSubmit, register, watch } = useForm();
+	const actionData = useActionData<typeof action>();
+	const submit = useSubmit();
+	const navigation = useNavigation();
+
+	async function login(data: FieldValues) {
+		submit(JSON.stringify(data), {
+			method: "POST",
+			encType: "application/json",
+		});
+	}
+
+	const $email = watch("email");
+
+	return (
+		<div className="container mx-auto">
+			<div className="min-h-[60vh]">
+				<div className="lg:max-w-[24rem] mx-auto">
+					<form
+						className="bg-white dark:bg-neutral-900 rounded-lg border dark:border-neutral-800 p-4"
+						onSubmit={handleSubmit(login)}
+					>
+						<h1 className="font-bold text-2xl mb-2">Login</h1>
+
+						<div className="rounded-lg p-2 bg-blue-50 text-blue-500 my-2 dark:bg-blue-700 dark:bg-opacity-10 dark:text-blue-400">
+							<i className="i-lucide-hand inline-block" /> If this is your first
+							time here, you might need to create an account.
+						</div>
+
+						{actionData && (
+							<div className="p-2 rounded-lg bg-red-50 text-red-500 dark:bg-red-700 dark:bg-opacity-10 dark:text-red-400 mb-2">
+								{actionData.type === "invalid-credentials" &&
+									actionData?.message}
+
+								{actionData.type === "unverified-account" && (
+									<>
+										You need to verify your email to be able to login. Check
+										your inbox.{" "}
+										<a
+											className="underline font-medium dark:text-red-200"
+											href={`/resend-verification?email=${$email}`}
+										>
+											Resend email
+										</a>{" "}
+										if you can&apos;t find it.
+									</>
+								)}
+							</div>
+						)}
+
+						<label>
+							Email or username
+							<Input
+								{...register("email", {
+									required: true,
+									setValueAs(v) {
+										return v.toLowerCase();
+									},
+								})}
+							/>
+							<small className="text-secondary">Your school email</small>
+						</label>
+
+						<label className="block mt-2">
+							Password
+							<Input
+								type="password"
+								{...register("password", { required: true })}
+							/>
+							<small className="text-secondary">
+								Forgot your password?{" "}
+								<Link className="underline" to="/forgot-password">
+									Click here to reset
+								</Link>
+							</small>
+						</label>
+
+						<div className="mt-2">
+							<Button disabled={navigation.state === "submitting"}>
+								{navigation.state === "submitting" ? "Please wait…" : "Login"}
+							</Button>
+						</div>
+
+						<p className="mt-4">
+							<Link
+								className="underline font-medium text-green-500"
+								to="/create-account"
+							>
+								Create an account
+							</Link>{" "}
+							to start interacting on ttucampus.
+						</p>
+					</form>
+				</div>
+			</div>
+		</div>
+	);
+}

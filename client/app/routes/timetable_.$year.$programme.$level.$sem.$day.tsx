@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	json,
@@ -53,7 +54,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 		school: values.meta(),
 	};
 
-	return json(res, {
+	return Response.json(res, {
 		headers: {
 			"Set-Cookie": await withUserPrefs(request, {
 				programme,
@@ -98,7 +99,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 	const description = `See timetable for ${data?.programme}, L${data?.level} for the year ${data?.year}`;
 
 	return [
-		{ title: `Timetable | ${data?.school.shortName} ✽ compa` },
+		{ title: `Timetable | ${data?.school.shortName} ✽ ttucampus` },
 		{ name: "description", content: description },
 	];
 };
@@ -109,7 +110,7 @@ export default function TimeTable() {
 
 	const outlet = useOutlet();
 
-	const _minutes = schedule.reduce((acc, lesson) => {
+	const _minutes = schedule.reduce((acc: number, lesson: { timeEnd: number; timeStart: number; }) => {
 		return acc + (lesson.timeEnd - lesson.timeStart) / 60;
 	}, 0);
 
@@ -144,7 +145,7 @@ export default function TimeTable() {
 					</div>
 
 					<ul className="mt-2">
-						{schedule.map((lesson, i) => {
+						{schedule.map((lesson: { course: { name: string; id: number; code: string; slug: string; }; instructor: { name: string; id: number; }; } & { id: number; level: number; day: number; year: string; location: string; semester: number; courseId: number; instructorId: number; programmeId: number; timeEnd: number; timeStart: number; }, i: number) => {
 							const nextLesson = schedule[i + 1];
 							const timeDifference = nextLesson
 								? nextLesson.timeStart - lesson.timeEnd

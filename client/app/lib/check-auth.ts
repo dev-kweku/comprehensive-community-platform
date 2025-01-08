@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { json } from "@remix-run/node";
 import { authCookie } from "./cookies.server";
-import { decodeToken } from "./jwt-server";
+import { decodeToken } from "./jwt.server";
 
 async function checkAuth(request:Request):Promise<number>{
     const {token}=(await authCookie.parse(request.headers.get("Cookie")))||{};
