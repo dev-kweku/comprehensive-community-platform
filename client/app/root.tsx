@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "@unocss/reset/tailwind.css";
 
-import "virtual:uno.css";
+// eslint-disable-next-line import/no-unresolved
+import "virtual:uno.css"
 import "./style.css";
 
 import type { User } from "@prisma/client";

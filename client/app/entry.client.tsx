@@ -19,7 +19,7 @@ window.MediaRecorder = AudioRecorder;
 // site data analytics
 if (import.meta.env.NODE_ENV === "production") {
 	posthog.init("", {
-		api_host: "",
+		api_host: "",  //add posthog api for app monitoring
 	});
 }
 
