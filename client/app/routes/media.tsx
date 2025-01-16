@@ -1,4 +1,5 @@
 import {
+	json,
 	unstable_composeUploadHandlers,
 	unstable_parseMultipartFormData,
 	type ActionFunctionArgs,
@@ -55,7 +56,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 	const media = JSON.parse(formData.get("file") as string);
 
 	if (!media) {
-		return Response.json({ error: "No media uploaded" }, { status: 400 });
+		return json({ error: "No media uploaded" }, { status: 400 });
 	}
 
 	return { ...media, userId };

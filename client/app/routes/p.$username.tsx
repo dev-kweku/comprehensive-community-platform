@@ -1,6 +1,7 @@
 import type { SellerProfile } from "@prisma/client";
 import {
 	
+	json,
 	type ActionFunctionArgs,
 	type LoaderFunctionArgs,
 	type MetaFunction,
@@ -67,7 +68,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
 	if (request.method !== "PATCH") {
-		throw Response.json({}, { status: 405 });
+		throw json({}, { status: 405 });
 	}
 
 	const userId = await checkAuth(request);
@@ -76,17 +77,17 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 	});
 
 	if (!user) {
-		throw Response.json({}, { status: 404 });
+		throw json({}, { status: 404 });
 	}
 
 	if (user.username !== params.username) {
-		throw Response.json({}, { status: 403 });
+		throw json({}, { status: 403 });
 	}
 
 	const data = await request.json();
 	await prisma.user.update({ where: { id: userId }, data: { bio: data.bio } });
 
-	return Response.json({});
+	return json({});
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import {
 	
+	json,
 	redirect,
 	type ActionFunctionArgs,
 	type LoaderFunctionArgs,
@@ -23,7 +24,7 @@ import { prisma } from "../lib/prisma.server";
 export const loader = async ({ request }: LoaderFunctionArgs) => {
 	const email = new URL(request.url).searchParams.get("email");
 
-	return Response.json({ email });
+	return json({ email });
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -32,13 +33,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 	const token = searchParams.get("token");
 
 	if (!email || !token) {
-		return Response.json({ type: "invalid-request" }, { status: 400 });
+		return json({ type: "invalid-request" }, { status: 400 });
 	}
 
 	const user = await prisma.user.findFirst({ where: { email } });
 
 	if (!user) {
-		return Response.json({ type: "no-user" }, { status: 400 });
+		return json({ type: "no-user" }, { status: 400 });
 	}
 
 	const dayAgo = dayjs().subtract(1, "day").toDate();
@@ -47,7 +48,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 	});
 
 	if (!resetRequest) {
-		return Response.json({ type: "invalid-token" }, { status: 400 });
+		return json({ type: "invalid-token" }, { status: 400 });
 	}
 
 	const { password } = await request.json();

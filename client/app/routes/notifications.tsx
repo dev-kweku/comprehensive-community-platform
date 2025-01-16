@@ -1,4 +1,5 @@
 import {
+	json,
 	type LoaderFunctionArgs,
 	type MetaFunction,
 } from "@remix-run/node";
@@ -27,7 +28,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 		);
 	}
 
-	return Response.json({ school: values.meta(), notifications });
+	return json({ school: values.meta(), notifications });
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {

@@ -1,5 +1,5 @@
 import { useFetcher, type SubmitOptions } from "@remix-run/react";
-import { type SubmitTarget } from "react-router-dom";
+import { type SubmitTarget } from "react-router-dom/dist/dom";
 import React from "react";
 
 type PromiseFn = (value: unknown) => void;

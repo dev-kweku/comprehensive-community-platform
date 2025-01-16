@@ -19,5 +19,5 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 		comment.content = await render(comment.content);
 	}
 
-	return Response.json({ comments });
+	return json({ comments });
 };

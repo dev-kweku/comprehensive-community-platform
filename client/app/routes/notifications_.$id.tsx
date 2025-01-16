@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs, redirect } from "@remix-run/node";
+import { LoaderFunctionArgs, json, redirect } from "@remix-run/node";
 import { checkAuth } from "../lib/check-auth";
 import { prisma } from "../lib/prisma.server";
 
@@ -27,7 +27,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 			});
 
 			if (!post) {
-				throw Response.json({}, { status: 404 });
+				throw json({}, { status: 404 });
 			}
 
 			const path = [];

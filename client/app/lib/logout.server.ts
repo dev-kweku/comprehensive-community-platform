@@ -4,7 +4,7 @@ import { authCookie } from "./cookies.server";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function logout(request:Request){
-    return Response.json(null,{
+    return json(null,{
 status:200,
 headers:{
     "Set-Cookie":await authCookie.serialize("auth",{

@@ -35,7 +35,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	}
 
 	const school = values.get("shortName");
-	const emailExtensions = values.get("emailExtensions") as string[];
+	const emailExtensions = values.get("emailExtentions") as string[];
 
 	return { emailExtensions, school };
 };
@@ -60,7 +60,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 		}
 	}
 
-	const emailExtensions = values.get("emailExtensions") as string[];
+	const emailExtensions = values.get("emailExtentions") as string[];
 	if (!emailExtensions.some((ext) => email.endsWith(ext))) {
 		return json(
 			{

@@ -1,4 +1,4 @@
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs,json } from "@remix-run/node";
 import { checkAuth } from "../lib/check-auth";
 import { prisma } from "../lib/prisma.server";
 
@@ -7,7 +7,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 	const user = await prisma.user.findUnique({ where: { id: userId } });
 
 	if (request.method !== "POST") {
-		return Response.json({}, { status: 405 });
+		return json({}, { status: 405 });
 	}
 
 	const community = await prisma.community.findFirst({
@@ -15,7 +15,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 	});
 
 	if (!community) {
-		return Response.json({}, { status: 404 });
+		return json({}, { status: 404 });
 	}
 
 	await prisma.communityMember.create({

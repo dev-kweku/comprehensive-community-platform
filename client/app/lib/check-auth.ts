@@ -9,7 +9,7 @@ async function checkAuth(request:Request):Promise<number>{
     const {sub} =decodeToken(token)||{};
 
     if(!sub){
-        throw Response.json({type:"unauthoriced"},{status:401})
+        throw json({type:"unauthoriced"},{status:401})
     }
 
     return sub as unknown as number;

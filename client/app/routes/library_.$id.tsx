@@ -1,4 +1,4 @@
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, json } from "@remix-run/node";
 import { checkAuth } from "../lib/check-auth";
 import { prisma } from "../lib/prisma.server";
 
@@ -10,5 +10,5 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 	const userId = await checkAuth(request);
 	await prisma.repository.delete({ where: { userId, id: Number(params.id) } });
 
-	return Response.json({});
+	return json({});
 };

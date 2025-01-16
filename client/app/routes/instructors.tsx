@@ -1,4 +1,4 @@
-import { type ActionFunctionArgs } from "@remix-run/node";
+import { json, type ActionFunctionArgs } from "@remix-run/node";
 import { checkAuth } from "../lib/check-auth";
 import { prisma } from "../lib/prisma.server";
 
@@ -15,5 +15,5 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 	await prisma.instructor.create({ data });
 
-	return Response.json({});
+	return json({});
 };

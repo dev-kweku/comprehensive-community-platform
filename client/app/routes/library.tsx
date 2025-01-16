@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+	json,
 	type ActionFunctionArgs,
 	type LoaderFunctionArgs,
 	type MetaFunction,
@@ -91,7 +92,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 		});
 	}
 
-	return Response.json({}, { status: 201 });
+	return json({}, { status: 201 });
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {

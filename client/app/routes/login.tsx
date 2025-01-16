@@ -2,6 +2,7 @@
 import {
 	
 	LoaderFunctionArgs,
+	json,
 	redirect,
 	type ActionFunctionArgs,
 	type MetaFunction,
@@ -37,7 +38,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export const action = async ({ request }: ActionFunctionArgs) => {
 	if (request.method !== "POST") {
-		return Response.json(null, {
+		return json(null, {
 			status: 405,
 			statusText: "Method Not Allowed",
 		});
@@ -50,7 +51,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 	});
 
 	if (!user) {
-		return Response.json(
+		return json(
 			{ type: "invalid-credentials", message: "Invalid email or password" },
 			{ status: 400 },
 		);
@@ -61,7 +62,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 	});
 
 	if (!authCredential) {
-		return Response.json(
+		return json(
 			{ type: "invalid-credentials", message: "Invalid email or password" },
 			{ status: 400 },
 		);
@@ -69,7 +70,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 	const passwordMatch = await compare(password, authCredential.password);
 	if (!passwordMatch) {
-		return Response.json(
+		return json(
 			{
 				type: "invalid-credentials",
 				message: "Invalid email/username or password",
@@ -79,7 +80,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 	}
 
 	if (!user.verified) {
-		return Response.json(
+		return json(
 			{ type: "unverified-account", message: "Unverified account" },
 			{ status: 400 },
 		);
@@ -87,7 +88,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 	const token = signUser(user);
 
-	return Response.json(
+	return json(
 		{ type: "success", message: "Login successful" },
 		{
 			headers: {

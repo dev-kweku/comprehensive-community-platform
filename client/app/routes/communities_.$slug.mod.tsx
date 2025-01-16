@@ -1,10 +1,10 @@
-import { ActionFunctionArgs} from "@remix-run/node";
+import { ActionFunctionArgs,json} from "@remix-run/node";
 import { checkMod } from "../lib/check-mod";
 import { prisma } from "../lib/prisma.server";
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
 	if (request.method !== "POST") {
-		throw Response.json({}, { status: 405 });
+		throw json({}, { status: 405 });
 	}
 
 	const mod = await checkMod(request);
@@ -16,7 +16,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 	});
 
 	if (!community) {
-		throw Response.json({}, { status: 404 });
+		throw json({}, { status: 404 });
 	}
 
 	switch (data.action) {
@@ -52,5 +52,5 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 		}
 	}
 
-	return Response.json(null);
+	return json(null);
 };

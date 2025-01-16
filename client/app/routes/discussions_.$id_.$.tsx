@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {  type LoaderFunctionArgs } from "@remix-run/node";
+import {  json, type LoaderFunctionArgs } from "@remix-run/node";
 import { Link, useLoaderData, useParams } from "@remix-run/react";
 import { PostContent } from "../components/post-content";
 import { PostItem } from "../components/post-item";
@@ -15,7 +15,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 	});
 
 	if (!post) {
-		throw Response.json({}, { status: 404 });
+		throw json({}, { status: 404 });
 	}
 
 	post.content = await render(post.content);

@@ -2,6 +2,7 @@
 import {
     ActionFunctionArgs,
     MetaFunction,
+    json,
     redirect,
 } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
@@ -16,12 +17,12 @@ import { USERNAME_REGEX } from "../lib/username-regex";
 import { values } from "../lib/values.server";
 
 export const loader = async () => {
-	return Response.json({ school: values.meta() });
+	return json({ school: values.meta() });
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
 	if (request.method !== "POST") {
-		throw Response.json({}, { status: 405 });
+		throw json({}, { status: 405 });
 	}
 
 	const userId = await checkAuth(request);

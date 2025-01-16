@@ -1,11 +1,11 @@
-import { ActionFunctionArgs} from "@remix-run/node";
+import { ActionFunctionArgs, json} from "@remix-run/node";
 import { checkAuth } from "../lib/check-auth";
 import { prisma } from "../lib/prisma.server";
 
 
 export const action=async({params,request}:ActionFunctionArgs)=>{
     if(request.method!="PATCH"){
-        return Response.json({message:"Method not allowed"},{status:405})
+        return json({message:"Method not allowed"},{status:405})
     }
 
     const postId=Number(params.post);
@@ -40,5 +40,5 @@ export const action=async({params,request}:ActionFunctionArgs)=>{
         data:{upvotes,downvotes},
     })
 
-    return Response.json({});
+    return json({});
 }

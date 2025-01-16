@@ -1,4 +1,5 @@
 import {
+	json,
 	type ActionFunctionArgs,
 	type LoaderFunctionArgs,
 	type MetaFunction,
@@ -64,7 +65,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 		post.content = await renderSummary(post.content);
 	}
 
-	return Response.json(
+	return json(
 		{ school: values.meta(), posts: await includeVotes(posts, request) },
 		{
 			headers: {
@@ -80,7 +81,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 	await createPost(data, userId);
 
-	return Response.json({}, { status: 201 });
+	return json({}, { status: 201 });
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {

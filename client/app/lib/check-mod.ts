@@ -11,7 +11,7 @@ async function checkMod(request:Request){
         where:{id:userId,role:"moderator"},
     })
     if(!user){
-        throw Response.json({},{status:403});
+        throw json({},{status:403});
     }
     return user
 }

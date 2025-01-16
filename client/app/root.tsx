@@ -13,7 +13,8 @@ import {
 	Meta,
 	Outlet,
 	Scripts,
-	ScrollRestoration,
+	ScrollRestoration, 
+	json, 
 	useLoaderData,
 	useLocation,
 	useRevalidator,
@@ -51,7 +52,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 		//
 	}
 
-	return Response.json({ user, unreadNotifications });
+	return json({ user, unreadNotifications });
 };
 
 export const links: LinksFunction = () => [

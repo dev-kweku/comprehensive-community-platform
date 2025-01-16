@@ -54,7 +54,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 		school: values.meta(),
 	};
 
-	return Response.json(res, {
+	return json(res, {
 		headers: {
 			"Set-Cookie": await withUserPrefs(request, {
 				programme,

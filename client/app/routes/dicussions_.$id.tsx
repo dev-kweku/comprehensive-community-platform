@@ -1,6 +1,7 @@
 import type { User } from "@prisma/client";
 import {
 	
+	json,
 	redirect,
 	type ActionFunctionArgs,
 	type LoaderFunctionArgs,
@@ -56,7 +57,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 		vote = voteRecord?.up;
 	} catch { /* empty */ }
 
-	return Response.json({
+	return json({
 		comments: await includeVotes(comments, request),
 		meta: values.meta(),
 		post: { ...post, vote },
@@ -95,11 +96,11 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 
 			await updatePostProps(data.parentId);
 
-			return Response.json({}, { status: 201 });
+			return json({}, { status: 201 });
 		}
 	}
 
-	return Response.json({}, { status: 405 });
+	return json({}, { status: 405 });
 };
 
 async function updatePostProps(postId: number) {
