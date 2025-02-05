@@ -69,17 +69,25 @@ export default function App() {
 
 	const hideNav = authRoutes.includes(location.pathname);
 
+	// React.useEffect(() => {
+	// 	if (scheme === "light") {
+	// 		document
+	// 			.querySelector('meta[name="theme-color"]')
+	// 			?.setAttribute("content", "#FAFAFA");
+	// 	} else {
+	// 		document
+	// 			.querySelector('meta[name="theme-color"]')
+	// 			?.setAttribute("content", "#171717");
+	// 	}
+	// }, [scheme]);
+
 	React.useEffect(() => {
-		if (scheme === "light") {
-			document
-				.querySelector('meta[name="theme-color"]')
-				?.setAttribute("content", "#FAFAFA");
-		} else {
-			document
-				.querySelector('meta[name="theme-color"]')
-				?.setAttribute("content", "#171717");
+		const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+		if (metaThemeColor && (scheme === "light" ? "#FAFAFA" : "#171717") !== metaThemeColor.getAttribute("content")) {
+		metaThemeColor.setAttribute("content", scheme === "light" ? "#FAFAFA" : "#171717");
 		}
 	}, [scheme]);
+	
 
 	React.useEffect(() => {
 		function refresh() {
@@ -96,15 +104,17 @@ export default function App() {
 	}, [revalidator]);
 
 	React.useEffect(() => {
-		try {
-			if (unreadNotifications > 0) {
-				navigator.setAppBadge(unreadNotifications);
-			} else {
-				navigator.clearAppBadge();
+		if ("setAppBadge" in navigator) {
+			try {
+				if (unreadNotifications > 0) {
+					navigator.setAppBadge(unreadNotifications);
+				} else {
+					navigator.clearAppBadge();
+				}
+				} catch (error) {
+				console.error("App Badge Error:", error);
+				}
 			}
-		} catch {
-			// doesn't support badging
-		}
 	}, [unreadNotifications]);
 
 	return (
