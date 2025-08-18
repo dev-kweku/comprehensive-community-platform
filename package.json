@@ -7,15 +7,22 @@
 	"scripts": {
 		"add:client": "yarn workspace client add",
 		"add:website": "yarn workspace website add",
-		"build:client": "yarn workspace client build",
+	
+		"build:client": "yarn workspace client prisma generate && yarn workspace client build",
 		"build:website": "yarn workspace website build",
+	
 		"dev:client": "yarn workspace client dev",
 		"dev:website": "yarn workspace website dev",
+	
 		"makemigration:client": "yarn workspace client prisma migrate dev --name $1",
 		"migrate:client": "yarn workspace client prisma migrate deploy",
+	
 		"setup:all": "yarn install && yarn workspace client prisma migrate deploy && yarn workspace client prisma generate",
+	
 		"start:client": "yarn workspace client start",
-		"fix-sharp": "yarn workspace client add sharp --ignore-engines"
+		"fix-sharp": "yarn workspace client add sharp --ignore-engines",
+	
+		"postinstall": "yarn workspace client prisma generate"
 	},
 	"workspaces": [
 		"client",
