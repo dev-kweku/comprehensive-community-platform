@@ -28,7 +28,7 @@ const values={
     values:{} as Values,
     get(key:Paths<Values>){
         if(!this.initialized){
-            const json=fs.readFileSync(`res/${process.env.SHCOOL}.json`,"utf-8");
+            const json=fs.readFileSync(`res/${process.env.SCHOOL}.json`,"utf-8");
             this.values=JSON.parse(json)
 
             this.initialized=true;
