@@ -35,7 +35,7 @@
         start: "2025-01-08",
         end: "2025-08-23"
     },
-    emailExtentions: ["ttu.edu.gh"]
+    emailExtentions: ["ttu.edu.gh.com"]
     };
 
     const values = {
@@ -73,4 +73,3 @@
 
 
 
-    

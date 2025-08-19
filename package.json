@@ -22,7 +22,9 @@
 		"start:client": "yarn workspace client start",
 		"fix-sharp": "yarn workspace client add sharp --ignore-engines",
 	
-		"postinstall": "yarn workspace client prisma generate"
+		"postinstall": "yarn workspace client prisma generate",
+		"studio:client":"yarn workspace client prisma studio"
+
 	},
 	"workspaces": [
 		"client",
