@@ -12,7 +12,7 @@ function CommonHead() {
 			<meta name="theme-color" content="#FAFAFA" />
 			<link rel="manifest" href="/manifest.webmanifest" />
 			<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-			<link rel="icon" type="image/png" href="public/favicon.ico" />
+			<link rel="icon" type="image/png" href="favicon.ico" />
 			<link
 				href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
 				rel="stylesheet"

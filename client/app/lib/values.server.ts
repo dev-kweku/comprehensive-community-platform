@@ -21,32 +21,56 @@
     end: string;
     }
 
+    // Embedded JSON data
+    const staticValues: Values = {
+    id: "ttu",
+    name: "Takoradi Technical University",
+    shortName: "TTU",
+    semester: {
+        number: 2,
+        start: "2025-01-11",
+        end: "2025-03-24"
+    },
+    examination: {
+        start: "2025-01-08",
+        end: "2025-08-23"
+    },
+    emailExtentions: ["ttu.edu.gh"]
+    };
+
     const values = {
-    initialized: false,
-    values: {} as Values,
-
-    async load() {
-        if (!this.initialized) {
-        const schoolId = process.env.SCHOOL ?? "ttu";
-        const res = await fetch(`/res/${schoolId}.json`);
-        this.values = await res.json();
-        this.initialized = true;
-        }
-        return this.values;
+    // Synchronous version of get()
+    get(key: Paths<Values>) {
+        return lodashGet(staticValues, key);
     },
 
-    async get(key: Paths<Values>) {
-        const data = await this.load();
-        return lodashGet(data, key);
-    },
-
-    async meta() {
-        const data = await this.load();
+    // Synchronous version of meta()
+    meta() {
         return {
-        id: data.id,
-        shortName: data.shortName,
+        id: staticValues.id,
+        shortName: staticValues.shortName,
         };
     },
+
+    // Keep async versions if needed for backward compatibility
+    async load() {
+        return staticValues;
+    },
+
+    async getAsync(key: Paths<Values>) {
+        return lodashGet(staticValues, key);
+    },
+
+    async metaAsync() {
+        return {
+        id: staticValues.id,
+        shortName: staticValues.shortName,
+        };
+    }
     };
 
     export { values };
+
+
+
+    
