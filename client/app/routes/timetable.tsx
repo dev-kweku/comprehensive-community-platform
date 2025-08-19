@@ -20,7 +20,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 		orderBy: { name: "asc" },
 	});
 
-	const school = values.get("shortName") as string;
+	const school = values.get("shortName") as unknown as string;
 	const schoolSem = values.get("semester") as unknown as number;
 
 	return { programmes, school, schoolSem };

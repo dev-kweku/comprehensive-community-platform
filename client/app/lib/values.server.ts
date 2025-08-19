@@ -1,6 +1,5 @@
     import lodashGet from "lodash.get";
     import type { Paths } from "type-fest";
-    import ttuJson from "~/res/ttu.json";
 
     export interface Values {
     id: string;
@@ -8,7 +7,7 @@
     shortName: string;
     semester: Semester;
     examination: Examination;
-    emailExtentions: string[];
+    emailExtentions: string[]; // keep typo if that's how JSON is defined
     }
 
     export interface Semester {
@@ -22,24 +21,30 @@
     end: string;
     }
 
-    const schools: Record<string, Values> = {
-    ttu: {
-        ...ttuJson,
-        emailExtentions:
-        (ttuJson as any).emailExtentions ?? ttuJson.emailExtentions,
-    },
-    };
-
     const values = {
-    get(key: Paths<Values>) {
+    initialized: false,
+    values: {} as Values,
+
+    async load() {
+        if (!this.initialized) {
         const schoolId = process.env.SCHOOL ?? "ttu";
-        return lodashGet(schools[schoolId], key);
+        const res = await fetch(`/res/${schoolId}.json`);
+        this.values = await res.json();
+        this.initialized = true;
+        }
+        return this.values;
     },
-    meta() {
-        const schoolId = process.env.SCHOOL ?? "ttu";
+
+    async get(key: Paths<Values>) {
+        const data = await this.load();
+        return lodashGet(data, key);
+    },
+
+    async meta() {
+        const data = await this.load();
         return {
-        id: schools[schoolId].id,
-        shortName: schools[schoolId].shortName,
+        id: data.id,
+        shortName: data.shortName,
         };
     },
     };
