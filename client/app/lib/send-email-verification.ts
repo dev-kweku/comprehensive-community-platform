@@ -35,7 +35,7 @@ async function sendEmail(verification: EmailVerificationRequest) {
 
 	return await send({
 		to: verification.email,
-		from: "mail@ttucampus.org",
+		from: `<mail@ttucampus.org>`,
 		subject: "Account verification ✽ ttucampus",
 		text: `Hi and welcome to ttucampus,\n\nClick the following link to verify your account: ${link}.\n\nSee you!\n\n\n(You cannot reply to this email.)`,
 	});
