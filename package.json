@@ -15,7 +15,7 @@
 		"dev:website": "yarn workspace website dev",
 	
 		"makemigration:client": "yarn workspace client prisma migrate dev --name $1",
-		"migrate:client": "yarn workspace client prisma migrate dev",
+		"migrate:client": "yarn workspace client prisma migrate deploy",
 	
 		"setup:all": "yarn install && yarn workspace client prisma migrate deploy && yarn workspace client prisma generate",
 	
