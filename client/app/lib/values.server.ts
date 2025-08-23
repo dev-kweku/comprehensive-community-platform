@@ -1,75 +1,46 @@
-    import lodashGet from "lodash.get";
-    import type { Paths } from "type-fest";
+import lodashGet from "lodash.get";
+import fs from "node:fs";
+import type { Paths } from "type-fest";
 
-    export interface Values {
-    id: string;
-    name: string;
-    shortName: string;
-    semester: Semester;
-    examination: Examination;
-    emailExtentions: string[]; // keep typo if that's how JSON is defined
-    }
+export interface Values {
+	id: string;
+	name: string;
+	shortName: string;
+	semester: Semester;
+	examination: Examination;
+	emailExtensions: string[];
+}
 
-    export interface Semester {
-    number: number;
-    start: string;
-    end: string;
-    }
+export interface Semester {
+	number: number;
+	start: string;
+	end: string;
+}
 
-    export interface Examination {
-    start: string;
-    end: string;
-    }
+export interface Examination {
+	start: string;
+	end: string;
+}
 
-    // Embedded JSON data
-    const staticValues: Values = {
-    id: "ttu",
-    name: "Takoradi Technical University",
-    shortName: "TTU",
-    semester: {
-        number: 2,
-        start: "2025-01-11",
-        end: "2025-03-24"
-    },
-    examination: {
-        start: "2025-01-08",
-        end: "2025-08-23"
-    },
-    emailExtentions: ["ttu.edu.gh"]
-    };
+const values = {
+	initialized: false,
+	values: {} as Values,
+	get(key: Paths<Values>) {
+		if (!this.initialized) {
+			const json = fs.readFileSync(`res/${process.env.SCHOOL}.json`, "utf-8");
+			this.values = JSON.parse(json);
 
-    const values = {
-    // Synchronous version of get()
-    get(key: Paths<Values>) {
-        return lodashGet(staticValues, key);
-    },
+			this.initialized = true;
+		}
 
-    // Synchronous version of meta()
-    meta() {
-        return {
-        id: staticValues.id,
-        shortName: staticValues.shortName,
-        };
-    },
+		return lodashGet(this.values, key);
+	},
+	meta() {
+		return {
+			id: this.get("id"),
+			shortName: this.get("shortName"),
+		};
+	},
+};
 
-    // Keep async versions if needed for backward compatibility
-    async load() {
-        return staticValues;
-    },
-
-    async getAsync(key: Paths<Values>) {
-        return lodashGet(staticValues, key);
-    },
-
-    async metaAsync() {
-        return {
-        id: staticValues.id,
-        shortName: staticValues.shortName,
-        };
-    }
-    };
-
-    export { values };
-
-
-
+export { values };

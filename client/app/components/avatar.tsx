@@ -11,6 +11,11 @@ interface Props {
 
 const colors = ["#ffe12e", "#4d8c3a", "#0060ff", "#ff7d10", "#4e412b"];
 
+const BA =
+	typeof BoringAvatar.default !== "undefined"
+		? BoringAvatar.default
+		: BoringAvatar;
+
 function Avatar({
 	className,
 	name,
@@ -20,7 +25,7 @@ function Avatar({
 }: Props) {
 	return (
 		<div className={clsx("self-start", className)}>
-			<BoringAvatar
+			<BA
 				colors={colors}
 				size={size}
 				name={name}

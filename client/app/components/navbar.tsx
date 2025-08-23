@@ -42,16 +42,16 @@ const links = [
 		href: "/market",
 		icon: "i-lucide-shopping-bag",
 	},
-	{
-		title: "Parlon",
-		href: "/parlon",
-		icon: "i-lucide-video text-pink-500",
-	},
-	{
-		title: "Games",
-		href: "/games",
-		icon: "i-lucide-gamepad-2",
-	},
+	// {
+	// 	title: "Parlon",
+	// 	href: "/parlon",
+	// 	icon: "i-lucide-video text-pink-500",
+	// },
+	// {
+	// 	title: "Games",
+	// 	href: "/games",
+	// 	icon: "i-lucide-gamepad-2",
+	// },
 ];
 
 function Navbar() {
