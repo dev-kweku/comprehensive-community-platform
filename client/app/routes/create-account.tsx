@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { Prisma, type User } from "@prisma/client";
 import {
 	json,
@@ -16,15 +15,15 @@ import {
 } from "@remix-run/react";
 import React from "react";
 import { useForm, type FieldValues } from "react-hook-form";
-import { Button } from "../components/button";
-import { Input } from "../components/input";
-import { hash } from "../lib/password.server";
-import { prisma } from "../lib/prisma.server";
-import { sendEmailVerification } from "../lib/send-email-verification";
-import { USERNAME_REGEX } from "../lib/username-regex";
-import { values } from "../lib/values.server";
-import { restrictedUsernames } from "../lib/restrict-usernames";
-import { checkAuth } from "../lib/check-auth";
+import { Button } from "~/components/button";
+import { Input } from "~/components/input";
+import { hash } from "~/lib/password.server";
+import { prisma } from "~/lib/prisma.server";
+import { sendEmailVerification } from "~/lib/send-email-verification";
+import { USERNAME_REGEX } from "~/lib/username-regex";
+import { values } from "~/lib/values.server";
+import { restrictedUsernames } from "~/lib/restrict-usernames";
+import { checkAuth } from "~/lib/check-auth";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
 	try {
@@ -35,7 +34,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	}
 
 	const school = values.get("shortName");
-	const emailExtensions = values.get("emailExtentions") as string[];
+	const emailExtensions = values.get("emailExtensions") as string[];
 
 	return { emailExtensions, school };
 };
@@ -60,7 +59,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 		}
 	}
 
-	const emailExtensions = values.get("emailExtentions") as string[];
+	const emailExtensions = values.get("emailExtensions") as string[];
 	if (!emailExtensions.some((ext) => email.endsWith(ext))) {
 		return json(
 			{
@@ -99,7 +98,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-	return [{ title: `Create Account | ${data?.school} ✽ ttucampus` }];
+	return [{ title: `Create Account | ${data?.school} ✽ compa` }];
 };
 
 export default function CreateAccount() {
@@ -185,7 +184,7 @@ export default function CreateAccount() {
 								})}
 							/>
 							<small className="text-secondary" style={{ lineHeight: "1rem" }}>
-								Your school email. You&apos;ll need to verify your account.{" "}
+								Your school email. You'll need to verify your account.{" "}
 							</small>
 						</label>
 
