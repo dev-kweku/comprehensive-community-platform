@@ -28,7 +28,7 @@ async function sendEmail(verification: EmailVerificationRequest) {
 	const { email, token } = verification;
 
 	const link = [
-		`https://www.ttucampus.org/verify-email/?`,
+		`https://ttucampus.org/verify-email/?`,
 		`email=${email}`,
 		`&token=${token}`,
 	].join("");
