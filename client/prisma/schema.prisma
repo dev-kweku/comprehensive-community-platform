@@ -1,6 +1,5 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-//kweku frimpong @kweku-dev
 
 generator client {
   provider = "prisma-client-js"
@@ -8,8 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  url      = env("DATABASE_URL")
 }
 
 model Programme {
@@ -39,7 +37,7 @@ model Schedule {
   programmeId  Int
   semester     Int
   timeEnd      Int
-  timeStart    Int // seconds from midnight
+  timeStart    Int // seconds since midnight
   year         String // xxxx-xxxx
   location     String
 }

@@ -63,9 +63,8 @@ function ErrorBoundary() {
 		<html lang="en">
 			<head>
 				<CommonHead />
-				<title>
-					{statusCode}: {getErrorLabel(statusCode)}
-				</title>
+				<title>{`${statusCode}: ${getErrorLabel(statusCode)}`}</title>
+
 
 				<Meta />
 				<Links />
